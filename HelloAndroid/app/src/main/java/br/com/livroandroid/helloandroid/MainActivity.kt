@@ -1,10 +1,12 @@
 package br.com.livroandroid.helloandroid
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : AppCompatActivity() {
-    private val TAG = "livro"
+class MainActivity : DebugActivity() {
+    //    private val TAG = "livro"
+    private val context: Context get() = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +26,9 @@ class MainActivity : AppCompatActivity() {
         val login = getTextString(R.id.tLogin)
         val senha = getTextString(R.id.tSenha)
         if ("ricardo" == login && "123" == senha) {
-            toast("Bem-vindo, login realizado com sucesso.")
+            val intent = Intent(context, BemVindoActivity::class.java)
+            intent.putExtra("nome", "Ricardo Lecheta")
+            startActivity(intent)
         } else {
             toast("Login e senha incorretos.")
         }
