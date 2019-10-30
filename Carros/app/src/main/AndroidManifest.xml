@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.livroandroid.carros">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".CarrosApplication"
         android:allowBackup="true"
@@ -11,8 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".SiteLivroActivity"
+            android:parentActivityName=".activity.MainActivity"></activity>
+        <activity
             android:name=".activity.CarrosActivity"
             android:parentActivityName=".activity.MainActivity">
+
             <!-- Para versão abaixo do 4 -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

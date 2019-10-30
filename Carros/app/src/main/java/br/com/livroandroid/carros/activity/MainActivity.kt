@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import br.com.livroandroid.carros.R
+import br.com.livroandroid.carros.SiteLivroActivity
 import br.com.livroandroid.carros.domain.TipoCarro
 import com.google.android.material.navigation.NavigationView
 import org.jetbrains.anko.startActivity
@@ -50,7 +51,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 startActivity<CarrosActivity>("tipo" to TipoCarro.luxo)
             }
             R.id.nav_item_site_livro -> {
-                toast("Clicou em site do livro")
+                startActivity<SiteLivroActivity>()
             }
             R.id.nav_item_settings -> {
                 toast("Clicou em configurações")
