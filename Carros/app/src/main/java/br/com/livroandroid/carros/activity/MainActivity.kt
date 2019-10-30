@@ -1,6 +1,5 @@
 package br.com.livroandroid.carros.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -9,8 +8,9 @@ import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import br.com.livroandroid.carros.R
 import br.com.livroandroid.carros.domain.TipoCarro
-import br.com.livroandroid.carros.extensions.toast
 import com.google.android.material.navigation.NavigationView
+import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,19 +41,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 toast("Clicou em carros")
             }
             R.id.nav_item_carros_classicos -> {
-                val intent = Intent(context, CarrosActivity::class.java)
-                intent.putExtra("tipo", TipoCarro.classicos)
-                startActivity(intent)
+                startActivity<CarrosActivity>("tipo" to TipoCarro.classicos)
             }
             R.id.nav_item_carros_esportivos -> {
-                val intent = Intent(context, CarrosActivity::class.java)
-                intent.putExtra("tipo", TipoCarro.esportivos)
-                startActivity(intent)
+                startActivity<CarrosActivity>("tipo" to TipoCarro.esportivos)
             }
             R.id.nav_item_carros_luxo -> {
-                val intent = Intent(context, CarrosActivity::class.java)
-                intent.putExtra("tipo", TipoCarro.luxo)
-                startActivity(intent)
+                startActivity<CarrosActivity>("tipo" to TipoCarro.luxo)
             }
             R.id.nav_item_site_livro -> {
                 toast("Clicou em site do livro")
