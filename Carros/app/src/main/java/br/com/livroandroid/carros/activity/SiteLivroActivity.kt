@@ -1,4 +1,4 @@
-package br.com.livroandroid.carros
+package br.com.livroandroid.carros.activity
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -6,17 +6,13 @@ import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import br.com.livroandroid.carros.activity.BaseActivity
+import br.com.livroandroid.carros.R
 import br.com.livroandroid.carros.activity.dialogs.AboutDialog
 import br.com.livroandroid.carros.extensions.setupToolbar
+import kotlinx.android.synthetic.main.activity_site_livro.*
 
 class SiteLivroActivity : BaseActivity() {
     private val URL_SOBRE = "http://www.livroandroid.com.br/sobre.htm"
-    var webview: WebView? = null
-    var progress: ProgressBar? = null
-    var swipeToRefresh: SwipeRefreshLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,20 +20,16 @@ class SiteLivroActivity : BaseActivity() {
         // Toolbar
         val actionBar = setupToolbar(R.id.toolbar)
         actionBar.setDisplayHomeAsUpEnabled(true)
-        // Views
-        webview = findViewById(R.id.webview)
-        progress = findViewById(R.id.progress)
         // Carrega pagina
         setWebViewClient(webview)
-        webview?.loadUrl(URL_SOBRE)
+        webview.loadUrl(URL_SOBRE)
 
         //Swipe to Refresh
-        swipeToRefresh = findViewById<SwipeRefreshLayout>(R.id.swiperToRefresh)
-        swipeToRefresh?.setOnRefreshListener {
-            webview?.reload()
+        swipeToRefresh.setOnRefreshListener {
+            webview.reload()
         }
         // Cores da animação
-        swipeToRefresh?.setColorSchemeResources(
+        swipeToRefresh.setColorSchemeResources(
             R.color.refresh_progress_1,
             R.color.refresh_progress_2,
             R.color.refresh_progress_3
@@ -50,15 +42,15 @@ class SiteLivroActivity : BaseActivity() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
                 // Liga o progress
-                progress?.visibility = View.VISIBLE
+                progress.visibility = View.VISIBLE
             }
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
                 // Desliga o oprogress
-                progress?.visibility = View.INVISIBLE
+                progress.visibility = View.INVISIBLE
                 // Termia a animação do Swipe to Refresh
-                swipeToRefresh?.isRefreshing = false
+                swipeToRefresh.isRefreshing = false
             }
 
             override fun shouldOverrideUrlLoading(

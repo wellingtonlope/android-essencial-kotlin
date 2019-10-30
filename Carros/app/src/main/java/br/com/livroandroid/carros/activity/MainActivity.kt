@@ -7,7 +7,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import br.com.livroandroid.carros.R
-import br.com.livroandroid.carros.SiteLivroActivity
 import br.com.livroandroid.carros.domain.TipoCarro
 import com.google.android.material.navigation.NavigationView
 import org.jetbrains.anko.startActivity
