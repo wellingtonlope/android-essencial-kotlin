@@ -1,17 +1,13 @@
 package br.com.livroandroid.carros.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import br.com.livroandroid.carros.R
 import br.com.livroandroid.carros.domain.Carro
-import com.squareup.picasso.Picasso
+import br.com.livroandroid.carros.extensions.loadUrl
+import kotlinx.android.synthetic.main.adapter_carro.view.*
 
 // define o construtor que recebe (carros, onclick)
 class CarroAdapter(
@@ -21,18 +17,6 @@ class CarroAdapter(
     RecyclerView.Adapter<CarroAdapter.CarrosViewHolder>() {
     // ViewHolder com as views
     class CarrosViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        var tNome: TextView
-        var img: ImageView
-        var progress: ProgressBar
-        var cardView: CardView
-
-        init {
-            // Salvar as views no ViewHolder
-            tNome = view.findViewById(R.id.tNome)
-            img = view.findViewById(R.id.img)
-            progress = view.findViewById(R.id.progress)
-            cardView = view.findViewById(R.id.cardView)
-        }
     }
 
     override fun getItemCount() = this.carros.size
@@ -47,23 +31,13 @@ class CarroAdapter(
     }
 
     override fun onBindViewHolder(holder: CarrosViewHolder, position: Int) {
-        val context = holder.itemView.context
         // Recupera o objeto carro
         val carro = carros[position]
         // Atualiza os daos do carro
-        holder.tNome.text = carro.nome
-        holder.progress.visibility = View.VISIBLE
+        val view = holder.itemView
+        view.tNome.text = carro.nome
         // Faz o download da foto e mostra o ProgressBar
-        Picasso.with(context).load(carro.urlFoto).fit().into(holder.img,
-            object : com.squareup.picasso.Callback {
-                override fun onSuccess() {
-                    holder.progress.visibility = View.GONE
-                }
-
-                override fun onError() {
-                    holder.progress.visibility = View.GONE
-                }
-            })
+        view.img.loadUrl(carro.urlFoto, view.progress)
         // Adiciona o evento de clique na linha
         holder.itemView.setOnClickListener { onClick(carro) }
     }
