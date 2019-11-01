@@ -16,8 +16,7 @@ class CarroAdapter(
 ) :
     RecyclerView.Adapter<CarroAdapter.CarrosViewHolder>() {
     // ViewHolder com as views
-    class CarrosViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    }
+    class CarrosViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     override fun getItemCount() = this.carros.size
 
@@ -35,10 +34,12 @@ class CarroAdapter(
         val carro = carros[position]
         // Atualiza os daos do carro
         val view = holder.itemView
-        view.tNome.text = carro.nome
-        // Faz o download da foto e mostra o ProgressBar
-        view.img.loadUrl(carro.urlFoto, view.progress)
-        // Adiciona o evento de clique na linha
-        holder.itemView.setOnClickListener { onClick(carro) }
+        with(view) {
+            tNome.text = carro.nome
+            // Faz o download da foto e mostra o ProgressBar
+            img.loadUrl(carro.urlFoto, view.progress)
+            // Adiciona o evento de clique na linha
+            holder.itemView.setOnClickListener { onClick(carro) }
+        }
     }
 }
