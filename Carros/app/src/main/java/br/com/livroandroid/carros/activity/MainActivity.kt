@@ -12,6 +12,7 @@ import br.com.livroandroid.carros.adapter.TabsAdapter
 import br.com.livroandroid.carros.domain.TipoCarro
 import br.com.livroandroid.carros.extensions.setupToolbar
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -23,6 +24,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupToolbar(R.id.toolbar)
         setupNavDrawer()
         setupViewPagerTabs()
+
+        // FAB (variável fab gerada automaticamente pelo kotlin extensions)
+        fab.setOnClickListener {
+            val snack = Snackbar.make(it, "Clicou no botão FAB!", Snackbar.LENGTH_LONG)
+            snack.show()
+        }
     }
 
     private fun setupViewPagerTabs() {
