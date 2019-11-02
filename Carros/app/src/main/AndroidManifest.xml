@@ -13,8 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SiteLivroActivity"
+            android:name=".fragments.CarroActivity"
             android:parentActivityName=".activity.MainActivity"></activity>
+        <activity
+            android:name=".activity.SiteLivroActivity"
+            android:parentActivityName=".activity.MainActivity" />
         <activity
             android:name=".activity.CarrosActivity"
             android:parentActivityName=".activity.MainActivity">
