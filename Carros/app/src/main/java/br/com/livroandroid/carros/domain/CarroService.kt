@@ -1,29 +1,43 @@
 package br.com.livroandroid.carros.domain
 
-import android.content.Context
 import android.util.Log
 import br.com.livroandroid.carros.R
-import br.com.livroandroid.carros.extensions.fromJson
+import br.com.livroandroid.carros.domain.retrofit.CarrosREST
 import br.com.livroandroid.carros.extensions.getText
 import br.com.livroandroid.carros.extensions.getXml
 import org.json.JSONArray
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 object CarroService {
     private val TAG = "livro"
+    private val BASE_URL = "http://livrowebservices.com.br/rest/carros/"
+    private var service: CarrosREST
+
+    init {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        service = retrofit.create(CarrosREST::class.java)
+    }
 
     // Busca os carros por tipo (clássicos, esportivos ou luxo)
-    fun getCarros(context: Context?, tipo: TipoCarro): List<Carro> {
-        // Este é o arquiovo que temos que ler
-        val raw = getArquivoRaw(tipo)
-        // Abre o arquivo para leitura
-        val resource = context?.resources
-        val inputStream = resource?.openRawResource(raw)
-        inputStream?.bufferedReader().use {
-            // Lẽ o XML e cria a lista de carros
-            val json = it?.readText()
-            // Conveter o JSON para List<Carro>
-            return fromJson(json)
-        }
+    fun getCarros(tipo: TipoCarro): List<Carro> {
+        val call = service.getCarros(tipo.name)
+        return call.execute().body()
+    }
+
+    // Salva um carro
+    fun save(carro: Carro): Response {
+        val call = service.save(carro)
+        return call.execute().body()
+    }
+
+    // Deleta um carro
+    fun delete(carro: Carro): Response {
+        val call = service.delete(carro.id)
+        return call.execute().body()
     }
 
     // Retorna o arquivo que temos que ler para o tipo informado

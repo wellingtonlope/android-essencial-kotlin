@@ -27,8 +27,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         // FAB (variável fab gerada automaticamente pelo kotlin extensions)
         fab.setOnClickListener {
-            val snack = Snackbar.make(it, "Clicou no botão FAB!", Snackbar.LENGTH_LONG)
-            snack.show()
+            startActivity<CarroFormActivity>()
         }
     }
 
