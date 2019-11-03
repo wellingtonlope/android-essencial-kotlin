@@ -10,10 +10,12 @@ import br.com.livroandroid.carros.R
 import br.com.livroandroid.carros.domain.Carro
 import br.com.livroandroid.carros.domain.CarroService
 import br.com.livroandroid.carros.domain.TipoCarro
+import br.com.livroandroid.carros.domain.event.SaveCarroEvent
 import br.com.livroandroid.carros.extensions.*
 import br.com.livroandroid.carros.utils.CameraHelper
 import kotlinx.android.synthetic.main.activity_carro_form.*
 import kotlinx.android.synthetic.main.activity_carro_form_contents.*
+import org.greenrobot.eventbus.EventBus
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
@@ -109,6 +111,8 @@ class CarroFormActivity : BaseActivity() {
                 // Mensagem com a responsta do servidor
                 toast(response.msg)
                 finish()
+                // Dispara um evento para atualizar a lista de carros
+                EventBus.getDefault().post(SaveCarroEvent(c))
             }
         }
     }

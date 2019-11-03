@@ -2,6 +2,7 @@ package br.com.livroandroid.carros.fragments
 
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -77,6 +78,7 @@ class MapaFragment : BaseFragment(), OnMapReadyCallback {
         map?.mapType = GoogleMap.MAP_TYPE_NORMAL
     }
 
+    @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

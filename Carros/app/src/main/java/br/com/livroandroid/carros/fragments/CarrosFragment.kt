@@ -12,9 +12,12 @@ import br.com.livroandroid.carros.adapter.CarroAdapter
 import br.com.livroandroid.carros.domain.Carro
 import br.com.livroandroid.carros.domain.CarroService
 import br.com.livroandroid.carros.domain.TipoCarro
+import br.com.livroandroid.carros.domain.event.SaveCarroEvent
 import br.com.livroandroid.carros.utils.AndroidUtils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_carros.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
@@ -29,6 +32,20 @@ open class CarrosFragment : BaseFragment() {
             // Lê o parâmetro tipo enviado (clássicos, esportivos ou luxo)
             tipo = arguments?.getSerializable("tipo") as TipoCarro
         }
+        // Registra os eventos do bus
+        EventBus.getDefault().register(this)
+    }
+
+    @Subscribe
+    fun onRefresh(event: SaveCarroEvent) {
+        // Recebe o evento do bus
+        taskCarros()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        // Cancela os eventos do bus
+        EventBus.getDefault().unregister(this)
     }
 
     override fun onCreateView(
@@ -48,8 +65,8 @@ open class CarrosFragment : BaseFragment() {
         recyclerView.setHasFixedSize(true)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         taskCarros()
     }
 
