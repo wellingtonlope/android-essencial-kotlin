@@ -1,6 +1,8 @@
 package br.com.livroandroid.carros.activity
 
+import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_carro.*
 import kotlinx.android.synthetic.main.activity_carro_contents.*
 import org.jetbrains.anko.*
 
-class CarroActivity : AppCompatActivity() {
+class CarroActivity : BaseActivity() {
     val carro by lazy { intent.getParcelableExtra<Carro>("carro") }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,13 +30,6 @@ class CarroActivity : AppCompatActivity() {
         initView()
         // Variável gerada automaticamnte pelo kotlin extensions
         fab.setOnClickListener { onClickFavoritar(carro) }
-        // Cor botão favoritar
-        doAsync {
-            val favorito = FavoritosService.isFavorito(carro)
-            uiThread {
-                setFavoriteColor(favorito)
-            }
-        }
     }
 
     private fun onClickFavoritar(carro: Carro) {
@@ -65,6 +60,23 @@ class CarroActivity : AppCompatActivity() {
         // Variáveis geradas automaticamente pelo kotlin extensions (veja import)
         tDesc.text = carro?.desc
         appBarImg.loadUrl(carro?.urlFoto)
+        // Foto do carro(pequena com transparência)
+        img.loadUrl(carro?.urlFoto)
+        // Troca o Vídeo
+        imgPlayVideo.setOnClickListener {
+            val url = carro?.urlVideo
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.setDataAndType(Uri.parse(url), "video/*")
+            startActivity(intent)
+        }
+
+        // Cor botão favoritar
+        doAsync {
+            val favorito = FavoritosService.isFavorito(carro)
+            uiThread {
+                setFavoriteColor(favorito)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

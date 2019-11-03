@@ -1,5 +1,6 @@
 package br.com.livroandroid.carros.domain
 
+import android.util.Base64
 import android.util.Log
 import br.com.livroandroid.carros.R
 import br.com.livroandroid.carros.domain.dao.DatabaseManager
@@ -9,6 +10,7 @@ import br.com.livroandroid.carros.extensions.getXml
 import org.json.JSONArray
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 
 object CarroService {
     private val TAG = "livro"
@@ -45,6 +47,15 @@ object CarroService {
             dao.delete(carro)
         }
         return response
+    }
+
+    fun postFoto(file: File): Response {
+        // Converter para Base64
+        val bytes = file.readBytes()
+        val base64 = Base64.encodeToString(bytes, Base64.NO_WRAP)
+        Log.d("fodeu", "${file.name} | $base64")
+        val call = service.postFoto(file.name, base64)
+        return call.execute().body()
     }
 
     // Retorna o arquivo que temos que ler para o tipo informado
