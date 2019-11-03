@@ -19,14 +19,16 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.uiThread
 
-class CarrosFragment : BaseFragment() {
+open class CarrosFragment : BaseFragment() {
     private var tipo: TipoCarro = TipoCarro.classicos
-    private var carros = listOf<Carro>()
+    protected var carros = listOf<Carro>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Lê o parâmetro tipo enviado (clássicos, esportivos ou luxo)
-        tipo = arguments?.getSerializable("tipo") as TipoCarro
+        if (arguments != null) {
+            // Lê o parâmetro tipo enviado (clássicos, esportivos ou luxo)
+            tipo = arguments?.getSerializable("tipo") as TipoCarro
+        }
     }
 
     override fun onCreateView(
@@ -51,7 +53,7 @@ class CarrosFragment : BaseFragment() {
         taskCarros()
     }
 
-    fun taskCarros() {
+    open fun taskCarros() {
         val internetOk = AndroidUtils.isNetworkAvailable(context)
         if (internetOk) {
             // Abre uma thread
@@ -73,7 +75,7 @@ class CarrosFragment : BaseFragment() {
         }
     }
 
-    fun onClickCarro(carro: Carro) {
+    open fun onClickCarro(carro: Carro) {
         activity?.startActivity<CarroActivity>("carro" to carro)
     }
 

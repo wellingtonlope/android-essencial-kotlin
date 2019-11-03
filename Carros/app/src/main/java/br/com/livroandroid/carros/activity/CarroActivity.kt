@@ -1,12 +1,15 @@
 package br.com.livroandroid.carros.activity
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import br.com.livroandroid.carros.R
 import br.com.livroandroid.carros.domain.Carro
 import br.com.livroandroid.carros.domain.CarroService
+import br.com.livroandroid.carros.domain.FavoritosService
 import br.com.livroandroid.carros.extensions.loadUrl
 import br.com.livroandroid.carros.extensions.setupToolbar
 import kotlinx.android.synthetic.main.activity_carro.*
@@ -23,6 +26,39 @@ class CarroActivity : AppCompatActivity() {
         setupToolbar(R.id.toolbar, carro?.nome, true)
         // Atualiza os dados do carro na tela
         initView()
+        // Variável gerada automaticamnte pelo kotlin extensions
+        fab.setOnClickListener { onClickFavoritar(carro) }
+        // Cor botão favoritar
+        doAsync {
+            val favorito = FavoritosService.isFavorito(carro)
+            uiThread {
+                setFavoriteColor(favorito)
+            }
+        }
+    }
+
+    private fun onClickFavoritar(carro: Carro) {
+        doAsync {
+            val favoritado = FavoritosService.favoritar(carro)
+            uiThread {
+                // Alerta de sucesso
+                setFavoriteColor(favoritado)
+                toast(if (favoritado) R.string.msg_carro_favoritado else R.string.msg_carro_desfavoritado)
+            }
+        }
+    }
+
+    // Desenha a cor do FAB conforme está favoritado ou não
+    fun setFavoriteColor(favorito: Boolean) {
+        // Troca a cor conforme o status do favorito
+        val fundo = ContextCompat.getColor(
+            this,
+            if (favorito) R.color.favorito_on else R.color.favorito_off
+        )
+        val cor =
+            ContextCompat.getColor(this, if (favorito) R.color.yellow else R.color.favorito_on)
+        fab.backgroundTintList = ColorStateList(arrayOf(intArrayOf(0)), intArrayOf(fundo))
+        fab.setColorFilter(cor)
     }
 
     private fun initView() {
@@ -48,7 +84,7 @@ class CarroActivity : AppCompatActivity() {
                     positiveButton(R.string.sim) {
                         taskExcluir()
                     }
-                    negativeButton(R.string.nao){
+                    negativeButton(R.string.nao) {
                         // Não confirmou
                     }
                 }.show()

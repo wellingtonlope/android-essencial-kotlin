@@ -7,12 +7,13 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.viewpager.widget.ViewPager
 import br.com.livroandroid.carros.R
 import br.com.livroandroid.carros.adapter.TabsAdapter
 import br.com.livroandroid.carros.domain.TipoCarro
 import br.com.livroandroid.carros.extensions.setupToolbar
+import br.com.livroandroid.carros.utils.Prefs
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
@@ -34,12 +35,30 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     private fun setupViewPagerTabs() {
         // Configura o ViewPager + tabs
         // As variáveis viewPager e TabLayout são geradas automaticamente pelo Kotlin extensions
-        viewPager.offscreenPageLimit = 2
+        viewPager.offscreenPageLimit = 3
         viewPager.adapter = TabsAdapter(context, supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
         // Cor banca no texto (o fundo azul é definido no layout)
         val cor = ContextCompat.getColor(context, R.color.white)
         tabLayout.setTabTextColors(cor, cor)
+
+        // Salvar e Recupera a ultima tab acessada
+        val tabIdx = Prefs.getInt("tabIdx")
+        viewPager.currentItem = tabIdx
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                // Slavar o índice da página/tab selecionada
+                Prefs.setInt("tabIdx", position)
+            }
+        })
     }
 
     // Configura o Navigation Drawer
