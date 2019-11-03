@@ -6,14 +6,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import br.com.livroandroid.carros.R
 import br.com.livroandroid.carros.domain.Carro
 import br.com.livroandroid.carros.domain.CarroService
 import br.com.livroandroid.carros.domain.FavoritosService
+import br.com.livroandroid.carros.extensions.addFragment
 import br.com.livroandroid.carros.extensions.loadUrl
 import br.com.livroandroid.carros.extensions.setupToolbar
+import br.com.livroandroid.carros.fragments.MapaFragment
 import kotlinx.android.synthetic.main.activity_carro.*
 import kotlinx.android.synthetic.main.activity_carro_contents.*
 import org.jetbrains.anko.*
@@ -77,6 +78,14 @@ class CarroActivity : BaseActivity() {
                 setFavoriteColor(favorito)
             }
         }
+
+        // Adiciona o fragment do mapa
+        val mapaFragment = MapaFragment()
+        mapaFragment.arguments = intent.extras
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.mapaFragment, mapaFragment)
+            .commit()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

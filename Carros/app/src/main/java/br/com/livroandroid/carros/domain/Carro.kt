@@ -16,8 +16,10 @@ class Carro() : Parcelable {
     var urlFoto = ""
     var urlInfo = ""
     var urlVideo = ""
-    var latitude = ""
-    var longitude = ""
+    var latitude: String = ""
+        get() = if (field.trim().isEmpty()) "0.0" else field
+    var longitude: String = ""
+        get() = if (field.trim().isEmpty()) "0.0" else field
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readLong()
